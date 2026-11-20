@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 650" width="800" height="650">
+  <defs>
+    <style>
+      .grid { stroke: #cccccc; stroke-width: 0.5; }
+      .axis-label { font-family: monospace; font-size: 12px; fill: #333; }
+      .point { fill: #e74c3c; r: 4; stroke: white; stroke-width: 1; }
+      .point-label { font-family: monospace; font-size: 9px; fill: #2c3e50; }
+      .path { stroke: #3498db; stroke-width: 2; fill: none; stroke-dasharray: 4,2; }
+      .title { font-family: sans-serif; font-size: 14px; font-weight: bold; fill: #2c3e50; }
+      .free-space { fill: #d6eaf8; stroke: #2980b9; stroke-width: 1; stroke-dasharray: 4; }
+      .wall { fill: #bdc3c7; stroke: #7f8c8d; stroke-width: 1.5; }
+      .door { fill: #d35400; stroke: #a04000; stroke-width: 1.5; }
+      .green { fill: #2ecc71; stroke: #27ae60; stroke-width: 1; opacity: 0.7; }
+      .lidar-ray { stroke: #f39c12; stroke-width: 0.8; stroke-dasharray: 3,2; fill: none; }
+      .note { font-family: monospace; font-size: 8px; fill: #555; }
+    </style>
+  </defs>
+
+  <!-- Сетка и оси такие же, как в предыдущей карте -->
+  <line x1="80" y1="80" x2="80" y2="570" class="grid"/>
+  <line x1="208" y1="80" x2="208" y2="570" class="grid"/>
+  <line x1="336" y1="80" x2="336" y2="570" class="grid"/>
+  <line x1="464" y1="80" x2="464" y2="570" class="grid"/>
+  <line x1="592" y1="80" x2="592" y2="570" class="grid"/>
+  <line x1="720" y1="80" x2="720" y2="570" class="grid"/>
+  
+  <line x1="80" y1="80" x2="720" y2="80" class="grid"/>
+  <line x1="80" y1="178" x2="720" y2="178" class="grid"/>
+  <line x1="80" y1="276" x2="720" y2="276" class="grid"/>
+  <line x1="80" y1="374" x2="720" y2="374" class="grid"/>
+  <line x1="80" y1="472" x2="720" y2="472" class="grid"/>
+  <line x1="80" y1="570" x2="720" y2="570" class="grid"/>
+  
+  <text x="400" y="605" text-anchor="middle" class="axis-label">Долгота →</text>
+  <text x="30" y="325" text-anchor="middle" transform="rotate(-90,30,325)" class="axis-label">Широта →</text>
+  
+  <text x="80" y="590" text-anchor="middle" class="axis-label">65.503483</text>
+  <text x="208" y="590" text-anchor="middle" class="axis-label">65.503490</text>
+  <text x="336" y="590" text-anchor="middle" class="axis-label">65.503497</text>
+  <text x="464" y="590" text-anchor="middle" class="axis-label">65.503504</text>
+  <text x="592" y="590" text-anchor="middle" class="axis-label">65.503511</text>
+  <text x="720" y="590" text-anchor="middle" class="axis-label">65.503512</text>
+  
+  <text x="65" y="84" text-anchor="end" class="axis-label">57.164543</text>
+  <text x="65" y="182" text-anchor="end" class="axis-label">57.164539</text>
+  <text x="65" y="280" text-anchor="end" class="axis-label">57.164535</text>
+  <text x="65" y="378" text-anchor="end" class="axis-label">57.164530</text>
+  <text x="65" y="476" text-anchor="end" class="axis-label">57.164526</text>
+  <text x="65" y="574" text-anchor="end" class="axis-label">57.164524</text>
+  
+  <text x="400" y="35" text-anchor="middle" class="title">Доступная область по данным лидара</text>
+  <text x="400" y="55" text-anchor="middle" class="axis-label">светло-голубое — пространство с расстояниями > 1 м</text>
+
+  <!-- Доступная область (примерный полигон, построенный по точкам где лидар показывал >1 м прямо и по бокам) -->
+  <!-- Формируем зону, в которой робот мог двигаться без столкновений -->
+  <polygon points="
+    80,80
+    208,80
+    336,80
+    464,80
+    592,80
+    720,80
+    720,120
+    650,120
+    650,180
+    550,180
+    550,220
+    450,220
+    450,260
+    350,260
+    350,300
+    250,300
+    250,350
+    180,350
+    180,400
+    120,400
+    120,470
+    80,470
+    80,80
+  " class="free-space" opacity="0.4"/>
+  
+  <!-- Уточняем, где были стены (на основе лидара) -->
+  <!-- Стена в стартовой позиции: прямо 0.16 м (x~154, y~141) -->
+  <rect x="140" y="130" width="30" height="20" class="wall" transform="rotate(24, 155, 140)"/>
+  
+  <!-- Препятствие слева/справа в начале коридора -->
+  <rect x="80" y="170" width="20" height="60" class="wall"/>
+  <rect x="700" y="170" width="20" height="60" class="wall"/>
+  
+  <!-- Дверь / ограждение на восточной стороне -->
+  <rect x="600" y="180" width="15" height="50" class="door"/>
+  
+  <!-- Препятствие в конце восточного коридора (стена?) -->
+  <rect x="650" y="80" width="20" height="100" class="wall"/>
+  
+  <!-- После разворота: южная стена -->
+  <rect x="200" y="520" width="150" height="15" class="wall"/>
+  
+  <!-- Дверь с чёрной рамой (препятствие) -->
+  <rect x="240" y="350" width="40" height="60" class="door" stroke="black" stroke-width="2"/>
+  
+  <!-- Кирпичная стена -->
+  <rect x="500" y="400" width="60" height="10" class="wall"/>
+  
+  <!-- Деревянные панели справа -->
+  <rect x="600" y="380" width="30" height="80" fill="#d35400" stroke="#a04000" stroke-width="1"/>
+
+  <!-- Лучи лидара в ключевых точках (примерно) -->
+  <!-- Старт: лучи показывают близкое препятствие прямо -->
+  <line x1="154" y1="142" x2="154" y2="155" class="lidar-ray"/>
+  <line x1="154" y1="142" x2="130" y2="148" class="lidar-ray"/>
+  <line x1="154" y1="142" x2="178" y2="148" class="lidar-ray"/>
+  
+  <!-- Точка 16:53:47 (x~247, y~182) - лидар показывает свободу прямо, стены по бокам -->
+  <line x1="247" y1="182" x2="247" y2="130" class="lidar-ray"/>
+  <line x1="247" y1="182" x2="210" y2="175" class="lidar-ray"/>
+  <line x1="247" y1="182" x2="284" y2="175" class="lidar-ray"/>
+  
+  <!-- Точка 17:10:23 (x~229, y~429) - лидар показывает стены слева/справа, прямо немного -->
+  <line x1="229" y1="429" x2="229" y2="400" class="lidar-ray"/>
+  <line x1="229" y1="429" x2="200" y2="420" class="lidar-ray"/>
+  <line x1="229" y1="429" x2="258" y2="420" class="lidar-ray"/>
+  
+  <!-- Траектория робота (пунктир) -->
+  <path d="M154,142 L192,183 L248,183 L397,162 L229,429" class="path"/>
+  
+  <!-- Точки маршрута -->
+  <circle cx="154" cy="142" class="point"/>
+  <text x="160" y="135" class="point-label">Старт</text>
+  
+  <circle cx="192" cy="183" class="point"/>
+  <text x="198" y="176" class="point-label">16:52:41</text>
+  
+  <circle cx="248" cy="183" class="point"/>
+  <text x="254" y="176" class="point-label">16:53:47</text>
+  
+  <circle cx="397" cy="162" class="point"/>
+  <text x="403" y="155" class="point-label">16:57:06</text>
+  
+  <circle cx="229" cy="429" class="point"/>
+  <text x="235" y="423" class="point-label">17:10:23</text>
+  
+  <!-- Подписи направлений -->
+  <text x="170" y="160" class="point-label" fill="#e67e22">→</text>
+  <text x="218" y="176" class="point-label" fill="#e67e22">→</text>
+  <text x="320" y="168" class="point-label" fill="#e67e22">→</text>
+  <text x="310" y="300" class="point-label" fill="#e67e22">разворот ↓</text>
+
+  <!-- Легенда -->
+  <rect x="80" y="620" width="15" height="10" fill="#d6eaf8" stroke="#2980b9"/>
+  <text x="100" y="628" font-size="9" fill="#333">доступная область</text>
+  <rect x="200" y="620" width="15" height="10" fill="#bdc3c7" stroke="#7f8c8d"/>
+  <text x="220" y="628" font-size="9" fill="#333">стены/препятствия</text>
+  <line x1="330" y1="625" x2="345" y2="625" class="lidar-ray"/>
+  <text x="350" y="628" font-size="9" fill="#333">лидарные лучи</text>
+</svg>
